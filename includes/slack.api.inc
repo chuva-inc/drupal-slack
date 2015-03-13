@@ -62,12 +62,13 @@ function slack_send_message($message, $channel = '', $username = '') {
  *     - code:                200        404           500
  *     - error:               -          Not found     Server Error
  */
-function _slack_send_message($webhook_url, $message, $message_options = array()) {
+function _slack_send_message($webhook_url, $message, $message_options = array(), $parse = 'none') {
   $headers = array(
     'Content-Type' => 'application/x-www-form-urlencoded',
   );
   $message_options['text'] = $message;
-  $sending_data = 'payload=' . drupal_json_encode($message_options);
+
+  $sending_data = 'parse=' . $parse . '&payload=' . drupal_json_encode($message_options);
   $options = array(
     'method' => 'POST',
     'data' => $sending_data,
