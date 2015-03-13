@@ -53,6 +53,13 @@ function slack_send_message($message, $channel = '', $username = '') {
  *   An associative array, it can contain:
  *     - channel: The channel in the Slack service to send messages
  *     - username: The bot name displayed in the channel
+ * @param string $parse_mode
+ *   Sets the parsing mode for the encapsuled message, see
+ *     https://api.slack.com/docs/formatting#parsing_modes
+ *   Supported values are:
+ *     - 'none' (default): the message will be posted as-is
+ *     - 'full': any text field (including attachments) will be post-processed
+ *         to include @user and links.
  *
  * @return object
  *   Can contain:
@@ -62,13 +69,13 @@ function slack_send_message($message, $channel = '', $username = '') {
  *     - code:                200        404           500
  *     - error:               -          Not found     Server Error
  */
-function _slack_send_message($webhook_url, $message, $message_options = array(), $parse = 'none') {
+function _slack_send_message($webhook_url, $message, $message_options = array(), $parse_mode = 'none') {
   $headers = array(
     'Content-Type' => 'application/x-www-form-urlencoded',
   );
   $message_options['text'] = $message;
 
-  $sending_data = 'parse=' . $parse . '&payload=' . drupal_json_encode($message_options);
+  $sending_data = 'parse=' . $parse_mode . '&payload=' . drupal_json_encode($message_options);
   $options = array(
     'method' => 'POST',
     'data' => $sending_data,
