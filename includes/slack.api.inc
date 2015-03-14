@@ -70,10 +70,18 @@ function slack_send_message($message, $channel = '', $username = '') {
  *     - error:               -          Not found     Server Error
  */
 function _slack_send_message($webhook_url, $message, $message_options = array(), $parse_mode = 'none') {
+  $message_options['text'] = $message;
+
+  return _slack_http_request($webhook_url, $message, $message_options, $parse_mode);
+}
+
+/**
+ * Wrapper for drupal_http_request().
+ */
+function _slack_http_request($webhook_url, $message_options = array(), $parse_mode = 'none') {
   $headers = array(
     'Content-Type' => 'application/x-www-form-urlencoded',
   );
-  $message_options['text'] = $message;
 
   $sending_data = 'parse=' . $parse_mode . '&payload=' . drupal_json_encode($message_options);
   $options = array(
