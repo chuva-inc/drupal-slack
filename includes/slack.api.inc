@@ -60,6 +60,9 @@ function slack_send_message($message, $channel = '', $username = '') {
  *     - 'none' (default): the message will be posted as-is
  *     - 'full': any text field (including attachments) will be post-processed
  *         to include @user and links.
+ *
+ * @return
+ *   See _slack_http_request().
  */
 function _slack_send_message($webhook_url, $message, $message_options = array(), $parse_mode = 'none') {
   $message_options['text'] = $message;
