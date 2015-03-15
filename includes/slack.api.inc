@@ -60,14 +60,6 @@ function slack_send_message($message, $channel = '', $username = '') {
  *     - 'none' (default): the message will be posted as-is
  *     - 'full': any text field (including attachments) will be post-processed
  *         to include @user and links.
- *
- * @return object
- *   Can contain:
- *                          success      fail          fail
- *     - data:                ok         No hooks      Invalid channel specified
- *     - status message:      OK         Not found     Server Error
- *     - code:                200        404           500
- *     - error:               -          Not found     Server Error
  */
 function _slack_send_message($webhook_url, $message, $message_options = array(), $parse_mode = 'none') {
   $message_options['text'] = $message;
@@ -77,6 +69,14 @@ function _slack_send_message($webhook_url, $message, $message_options = array(),
 
 /**
  * Wrapper for drupal_http_request().
+ *
+ * @return object
+ *   Can contain:
+ *                          success      fail          fail
+ *     - data:                ok         No hooks      Invalid channel specified
+ *     - status message:      OK         Not found     Server Error
+ *     - code:                200        404           500
+ *     - error:               -          Not found     Server Error
  */
 function _slack_http_request($webhook_url, $message_options = array(), $parse_mode = 'none') {
   $headers = array(
